@@ -150,8 +150,8 @@ set visualbell                    " No beeping.
 set splitbelow splitright         " Splitting behavior
 
 set nobackup                      " Don't make a backup before overwriting a file.
+set noswapfile                    " Don't keep swap files
 set nowritebackup                 " And again.
-set directory=/tmp                " Keep swap files in one location
 
 set tabstop=2                     " Global tab width.
 set shiftwidth=2                  " And again, related.
