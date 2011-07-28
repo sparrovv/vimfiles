@@ -102,9 +102,6 @@ Bundle 'ZenCoding.vim'
 " VimWiki
 Bundle 'vimwiki'
 
-" Substitue
-Bundle 'substitute'
-
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
