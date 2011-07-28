@@ -101,6 +101,10 @@ Bundle 'ZenCoding.vim'
 
 " VimWiki
 Bundle 'vimwiki'
+
+" Substitue
+Bundle 'substitute'
+
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
@@ -175,9 +179,6 @@ set matchpairs+=<:>               " add < and > to the chars thac can be navigat
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
-" change the mapleader from \ to ,
-let mapleader=","
-
 " semicolon instead of a colon for commands
 nnoremap ; :
 
@@ -244,7 +245,7 @@ set wildignore+=vendor/gems,vendor/bundle
 
 cmap w!! w !sudo tee % >/dev/null " w!! lets you save files that you would have to use sudo vim to open
 
-" Make the 'cw' and like commands put a $ at the end instead of just deleting
+" Make>the 'cw' and like commands put a $ at the end instead of just deleting
 " the text and replacing it
 set cpoptions=ces$
 
@@ -272,8 +273,19 @@ vnoremap <silent> <A-j> :m'>+<CR>gv=gv
 vnoremap <silent> <A-k> :m-2<CR>gv=gv  
 
 " Format all file
-nmap <C-f> gg=<S-G> 
+nmap <C-f> gg=<S-G>
 
 " Make vimwiki have syntax highlither
 let g:vimwiki_list = [{'html_header': '~/vimwiki_html/header.tpl'}]
 
+" Open vimrc in a split
+nmap <silent> <Leader>vim :e! ~/.vim/vimrc<CR>
+
+" When vimrc is edited, reload it
+autocmd! bufwritepost vimrc source ~/.vim/vimrc
+
+" Set spell for english :setlocal spell spelllang=en_us
+nmap <silent> <Leader>sp :set spell<CR>
+
+" Disable spell checker
+nmap <silent> <Leader>nsp :set nospell<CR>
