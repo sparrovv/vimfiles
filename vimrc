@@ -24,7 +24,7 @@ Bundle 'Better-Javascript-Indentation'
 " JSON.vim - JSON syntax highlighting
 Bundle 'JSON.vim'
 
-" LustyJuggler - switch between buffers easier
+" LustyJuggler - switch between buffers easier <Leader>lj
 Bundle 'LustyJuggler'
 
 " NerdCommenter - comment blocks of code
@@ -102,6 +102,8 @@ Bundle 'ZenCoding.vim'
 " VimWiki
 Bundle 'vimwiki'
 
+" SuperTab for autcompletion in insert mode
+Bundle 'SuperTab'
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
@@ -234,8 +236,8 @@ nmap <silent> <leader>g :CommandT<cr>
 nmap <silent> <leader>G :CommandTFlush<cr>:Rtags<cr>
 
 " unmap other ,g bindings
-nunmap <leader>ge
-nunmap <leader>gE
+"nunmap <leader>ge
+"nunmap <leader>gE
 
 " ignore gems bundled in the project directory
 set wildignore+=vendor/gems,vendor/bundle
