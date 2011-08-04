@@ -104,6 +104,7 @@ Bundle 'vimwiki'
 
 " SuperTab for autcompletion in insert mode
 Bundle 'SuperTab'
+Bundle 'https://github.com/aklt/vim-substitute.git'
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
