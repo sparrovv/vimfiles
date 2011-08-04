@@ -3,6 +3,6 @@
 --ignore-dir=log
 --ignore-dir=vendor
 --type-add=ruby=.haml,.rake
---type-add=html=.html.erb,.html.haml
+--type-add=html=.html.erb,.html.haml,.mustache,.wiki
 --type-add=css=.sass,.scss,.less
 
