@@ -288,3 +288,14 @@ nmap <silent> <Leader>sp :set spell<CR>
 
 " Disable spell checker
 nmap <silent> <Leader>nsp :set nospell<CR>
+
+function! Wack(phrase)
+  let p = a:phrase
+  call Ack(p . " ~/Dropbox/vimwiki/")
+endfunction
+
+command! -nargs=1 -complete=file Wack call Wack(<q-args>)
+" Search Wiki
+nmap <leader>wak :Wack<space>
+" Open todos
+nmap <Leader>td :e ~/Dropbox/vimwiki/ToDos.wiki <CR>
