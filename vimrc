@@ -1,5 +1,5 @@
 "==========================================================
-"
+
 " .vimrc inspired by Psyho(github.com/psyho), who was inspired by Peepcode screencast, Sickill and Derek Wyatt
 "
 "==========================================================
@@ -7,7 +7,7 @@
 set nocompatible                  " Must come first because it changes other options.
 
 " setup Vundle
-set rtp+=~/.vim/vundle/ 
+set rtp+=~/.vim/vundle/
 call vundle#rc()
 
 "----------------------------------------------------------
@@ -54,9 +54,6 @@ Bundle 'jslint.vim'
 " syntastic - plugin for displaying syntax errors
 Bundle 'Syntastic'
 
-" No longer count letters or words when jumping
-Bundle 'Lokaltog/vim-easymotion'
-
 " vim-endwise - wisely add 'end' in ruby
 Bundle 'endwise.vim'
 
@@ -66,11 +63,17 @@ Bundle 'fugitive.vim'
 " vim-markdown - syntax highlighting for markdown
 Bundle 'Markdown'
 
+" Markdown preview - Mm - only for osx
+Bundle 'nelstrom/vim-markdown-preview'
+
 " vim-matchit - better pair matching for the % command
 Bundle 'matchit.zip'
 
 " vim-rake - :Rake, :A, :R like in rails.vim, but without rails
 Bundle 'tpope/vim-rake'
+
+" vim-rake - :Rake, :A, :R like in rails.vim, but without rails
+Bundle 'tpope/vim-fugitive'
 
 " vim-rails - awesome vim-rails integration
 Bundle 'rails.vim'
@@ -104,7 +107,17 @@ Bundle 'vimwiki'
 
 " SuperTab for autcompletion in insert mode
 Bundle 'SuperTab'
+" ;; to substitue word, or selection
 Bundle 'https://github.com/aklt/vim-substitute.git'
+" Should run rspec in vim - but not work
+"Bundle 'duskhacker/sweet-rspec-vim'
+" Colorize css hash colors"
+"Bundle 'skammer/vim-css-color'
+
+" To be aware where gem ctags are, and some other goodies
+"Bundle 'https://github.com/tpope/vim-bundler.git'
+
+Bundle 'git://github.com/altercation/vim-colors-solarized.git'
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
@@ -139,7 +152,7 @@ set virtualedit=block             " allow the cursor to go into invalid places o
 
 " Display tabs and trailing spaces
 set list
-set listchars=tab:Â»\ ,trail:Â·,nbsp:Â·
+set listchars=tab:»\ ,trail:·,nbsp:·
 
 set incsearch                     " Highlight matches as you type.
 set hlsearch                      " Highlight matches.
@@ -233,7 +246,9 @@ nmap <silent> <leader>r :Rake<cr>
 nmap <silent> <leader>rs :Rake spec<cr>
 
 " regenarate tags and reload the list of files used by Command-T plugin
-nmap <silent> <leader>g :CommandT<cr>
+nmap <silent> <leader>gg :CommandT<cr>
+nmap <silent> <leader>gs :CommandT spec/<cr>
+
 nmap <silent> <leader>G :CommandTFlush<cr>:Rtags<cr>
 
 " unmap other ,g bindings
@@ -300,3 +315,36 @@ command! -nargs=1 -complete=file Wack call Wack(<q-args>)
 nmap <leader>wak :Wack<space>
 " Open todos
 nmap <Leader>td :e ~/Dropbox/vimwiki/ToDos.wiki <CR>
+"  ---------------------------------------------------------------------------
+"  Ruby/Rails
+"  ---------------------------------------------------------------------------
+
+" Edit routes
+command! Rroutes :Redit config/routes.rb
+command! RTroutes :RTedit config/routes.rb
+
+" Edit factories
+command! Rfactories :Redit spec/factories.rb
+command! RTfactories :RTedit spec/factories.rb
+
+" Execute current buffer as ruby
+map <S-r> :w !ruby<CR>
+
+map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+map <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+
+" View routes or Gemfile in large split
+map <leader>gr :topleft :split config/routes.rb<cr>
+map <leader>gg :topleft 100 :split Gemfile<cr>
+
+" Skip to Models and Views
+map <Leader>m :Rmodel 
+map <Leader>v :Rview 
+
+" open last closed window split
+nmap <C-b> :vs<bar>:b#<CR>
