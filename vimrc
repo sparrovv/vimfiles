@@ -143,7 +143,6 @@ set smartcase                     " But case-sensitive if expression contains a 
 
 set number                        " Show line numbers.
 set ruler                         " Show cursor position.
-set cursorline                    " Highlight the current line
 
 set history=1000                  " remember more commands and search history
 set undolevels=1000               " use many muchos levels of undo
@@ -300,6 +299,7 @@ nmap <silent> <Leader>vim :e! ~/.vim/vimrc<CR>
 autocmd! bufwritepost vimrc source ~/.vim/vimrc
 
 " Set spell for english :setlocal spell spelllang=en_us
+" How to use: z= ]s [s
 nmap <silent> <Leader>sp :set spell<CR>
 
 " Disable spell checker
