@@ -39,9 +39,6 @@ Bundle 'ack.vim'
 " command-T - file opener/finder
 Bundle 'Command-T'
 
-" highlight colors
-Bundle 'colorizer'
-
 " delimitMate - autoclosing of (", etc. that does not clash with endwise
 Bundle 'delimitMate.vim'
 
@@ -63,8 +60,7 @@ Bundle 'fugitive.vim'
 " vim-markdown - syntax highlighting for markdown
 Bundle 'Markdown'
 
-" Markdown preview - Mm - only for osx
-Bundle 'nelstrom/vim-markdown-preview'
+Bundle 'mkitt/markdown-preview.vim'
 
 " vim-matchit - better pair matching for the % command
 Bundle 'matchit.zip'
@@ -81,9 +77,6 @@ Bundle 'rails.vim'
 " vim-ruby - ruby integration
 Bundle 'ruby.vim'
 
-" vim-ruby-refactoring - automatic refactorings for ruby
-Bundle 'ecomba/vim-ruby-refactoring'
-
 " vim-surround - surrounding text with braces, quotes, html tags...
 Bundle 'surround.vim'
 
@@ -94,7 +87,7 @@ Bundle 'textobj-user'
 Bundle 'textobj-rubyblock'
 
 " vim-unimpaired - some useful mappings, for example to swap code lines
-Bundle 'unimpaired.vim'
+"Bundle 'unimpaired.vim'
 
 " vim-zoomwin - when maximizing the window it is possible to un-maximize it
 Bundle 'ZoomWin'
@@ -107,17 +100,34 @@ Bundle 'vimwiki'
 
 " SuperTab for autcompletion in insert mode
 Bundle 'SuperTab'
+
 " ;; to substitue word, or selection
 Bundle 'https://github.com/aklt/vim-substitute.git'
-" Should run rspec in vim - but not work
-"Bundle 'duskhacker/sweet-rspec-vim'
-" Colorize css hash colors"
-"Bundle 'skammer/vim-css-color'
+let g:substitute_NoPromptMap = "''"
+let g:substitute_PromptMap = "';"
 
 " To be aware where gem ctags are, and some other goodies
 "Bundle 'https://github.com/tpope/vim-bundler.git'
 
-Bundle 'git://github.com/altercation/vim-colors-solarized.git'
+" CoffeeScript syntax
+Bundle 'https://github.com/kchmck/vim-coffee-script'
+
+" Jade syntax
+Bundle 'https://github.com/digitaltoad/vim-jade'
+
+" Tabular
+Bundle 'https://github.com/godlygeek/tabular'
+
+Bundle "python.vim"
+
+Bundle "pyflakes"
+
+Bundle "json.vim"
+
+Bundle "sjl/vitality.vim"
+
+" toggle between ruby blocks <leader>b
+Bundle "https://github.com/jgdavey/vim-blockle.git"
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
@@ -186,13 +196,13 @@ set foldnestmax=3                 " deepest fold is 3 levels
 set foldlevel=3
 set nofoldenable                  " dont fold by default
 
-set matchpairs+=<:>               " add < and > to the chars thac can be navigated with %
+"set matchpairs+=<:>               " add < and > to the chars thac can be navigated with %
 
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
 " semicolon instead of a colon for commands
-nnoremap ; :
+"nnoremap ; :
 
 " j and k will navigate correctly in the wrapped lines
 nnoremap j gj
@@ -232,7 +242,7 @@ let g:syntastic_enable_signs=1
 let g:syntastic_disabled_filetypes = ['eruby']
 
 " zencoding-vim
-let g:user_zen_expandabbr_key = '<c-e>' 
+let g:user_zen_expandabbr_key = '<c-e>'
 let g:use_zen_complete_tag = 1
 
 "map <silent> <F2> <ESC>:NERDTreeToggle<CR>
@@ -261,19 +271,14 @@ cmap w!! w !sudo tee % >/dev/null " w!! lets you save files that you would have 
 
 " Make>the 'cw' and like commands put a $ at the end instead of just deleting
 " the text and replacing it
-set cpoptions=ces$
+"set cpoptions=ces$
 
 " some plugin was overriding the redo command
 nmap <silent> <c-r> :redo<cr>
 
-" map ,c to colorizer
-nmap ,c <Plug>Colorizer
-
 "key mapping for saving file
 nmap <C-s> :w<CR>
-
-"map Esc to jj
-imap jj <Esc>
+imap <C-s> <ESC>:w<CR><ESC>
 
 "map leadder p to nerdtree
 silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
@@ -284,7 +289,7 @@ nnoremap <silent> <A-k> :m-2<CR>==
 inoremap <silent> <A-j> <Esc>:m+<CR>==gi
 inoremap <silent> <A-k> <Esc>:m-2<CR>==gi
 vnoremap <silent> <A-j> :m'>+<CR>gv=gv
-vnoremap <silent> <A-k> :m-2<CR>gv=gv  
+vnoremap <silent> <A-k> :m-2<CR>gv=gv
 
 " Format all file
 nmap <C-f> gg=<S-G>
@@ -337,14 +342,99 @@ map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 map <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+map <leader>gf :CommandTFlush<cr>\|:CommandT ./<cr>
 
 " View routes or Gemfile in large split
 map <leader>gr :topleft :split config/routes.rb<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
 
 " Skip to Models and Views
-map <Leader>m :Rmodel 
-map <Leader>v :Rview 
+map <Leader>m :Rmodel
+map <Leader>v :Rview
 
 " open last closed window split
 nmap <C-b> :vs<bar>:b#<CR>
+
+" Use Node.js for JavaScript interpretation
+let $JS_CMD='node'
+
+map <leader>cp :CoffeeMake<CR>
+
+map <leader>a :Ack<space>
+
+set tags+=~/tags/gems.tags
+map ]t :tnext <CR>
+map [t :tprev <CR>
+
+" Command-t max height
+let g:CommandTMaxHeight = 15
+
+if exists('+colorcolumn')
+  set colorcolumn=80
+  hi ColorColumn guibg=#2d2d2d
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+endif
+
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+nnoremap <silent> <F5> :call <SID>StripTrailingWhitespaces()<CR>
+
+augroup abbrevs
+  au!
+
+  " Ruby
+  au Filetype ruby ia log/ Rails.logger.debug
+  au Filetype ruby ia pry/ require 'pry'; binding.pry;
+  au Filetype ruby ia debug/ require 'ruby-debug'; debugger;
+
+  au Filetype ruby ia desc/ describe "" do<CR><ESC>?""<ESC>a
+  au Filetype ruby ia cont/ context "" do<CR><ESC>?""<ESC>a
+  au Filetype ruby ia it/ it "" do<CR><ESC>?""<ESC>a
+  au Filetype ruby ia sub/ subject do<CR><BS><SPACE>
+  au Filetype ruby ia bef/ before do<CR><BS><SPACE>
+  au Filetype ruby ia let/ let(:) { }<ESC>F:a
+
+  " au Filetype ruby ia d/ do \|ppp\|<CR><ESC>?ppp<ESC>ciw
+
+  " Coffee
+  au Filetype coffee ia log/ console.log
+
+  " Javascript
+  au Filetype javascript ia log/ console.log()<left>
+  au Filetype javascript ia f/ function() {<CR><BS><SPACE><CR>}<ESC>?{<CR>j$a
+  au Filetype javascript ia f- function() { }<ESC>?{<ESC>a
+augroup END
+
+" Resizing vertical splits
+map <right> <C-W>>
+map <left>  <C-W><
+map <up>    <C-W>+
+map <down>  <C-W>-
+
+map <leader>jf  <Esc>:%!python -m json.tool<CR>
+
+colorscheme jellybeans
+
+"map Esc to jj
+imap jj <Esc>
+imap jk <Esc>
+
+" Save when losing focus
+au FocusLost * :silent! wall
+
+"let g:CommandTAcceptSelectionSplitMap=['<C-l>', '<C-k>']
+
+"quite safe pasting from clipboard
+map <C-p> <ESC>:set paste<CR>"*p:set nopaste<CR>
+
