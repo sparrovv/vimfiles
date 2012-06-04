@@ -10,11 +10,11 @@ set guioptions-=L
 set guioptions-=T
 set guioptions-=m
 
-colorscheme Sunburst
-if has("gui_running")
-  " GUI is running or is about to start.
-  " Maximize gvim window.
+"colorscheme Sunburst
+"if has("gui_running")
+  "" GUI is running or is about to start.
+  "" Maximize gvim window.
   set lines=999 columns=999
-  colorscheme sunburst
+  colorscheme jellybeans
   set cursorline                    " Highlight the current line
-endif
+"endif
