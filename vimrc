@@ -104,7 +104,7 @@ Bundle 'SuperTab'
 " ;; to substitue word, or selection
 Bundle 'https://github.com/aklt/vim-substitute.git'
 let g:substitute_NoPromptMap = "''"
-let g:substitute_PromptMap = "';"
+let g:substitute_PromptMap = "'l"
 
 " To be aware where gem ctags are, and some other goodies
 "Bundle 'https://github.com/tpope/vim-bundler.git'
@@ -128,6 +128,10 @@ Bundle "sjl/vitality.vim"
 
 " toggle between ruby blocks <leader>b
 Bundle "https://github.com/jgdavey/vim-blockle.git"
+
+" Add rename delete ...
+Bundle "https://github.com/tpope/vim-eunuch.git"
+
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
@@ -438,3 +442,5 @@ au FocusLost * :silent! wall
 "quite safe pasting from clipboard
 map <C-p> <ESC>:set paste<CR>"*p:set nopaste<CR>
 
+" put in command line current file absolute path
+cmap %% <C-R>=expand("%:p:h")<CR>
