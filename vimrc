@@ -7,15 +7,19 @@
 set nocompatible                  " Must come first because it changes other options.
 
 " setup Vundle
-set rtp+=~/.vim/vundle/
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 "----------------------------------------------------------
 " PLUGINS
 "----------------------------------------------------------
 
-" FuzzyFinder - finally I can go to a class or method like in RubyMine
+Bundle 'gmarik/vundle'
+
+Bundle 'pathogen.vim'
+
 Bundle 'L9'
+" FuzzyFinder - finally I can go to a class or method like in RubyMine
 Bundle 'FuzzyFinder'
 
 " javascript indentation in vim sucks
@@ -43,6 +47,7 @@ Bundle 'Command-T'
 Bundle 'delimitMate.vim'
 
 " greplace.vim - plugin that allows search and replace across all of the project files
+" Gsearch Greplace
 Bundle 'greplace.vim'
 
 " jslint .js files automatically
@@ -101,7 +106,7 @@ Bundle 'vimwiki'
 " SuperTab for autcompletion in insert mode
 Bundle 'SuperTab'
 
-" ;; to substitue word, or selection
+" '' to substitue word, or selection
 Bundle 'https://github.com/aklt/vim-substitute.git'
 let g:substitute_NoPromptMap = "''"
 let g:substitute_PromptMap = "'l"
@@ -112,9 +117,6 @@ let g:substitute_PromptMap = "'l"
 " CoffeeScript syntax
 Bundle 'https://github.com/kchmck/vim-coffee-script'
 
-" Jade syntax
-Bundle 'https://github.com/digitaltoad/vim-jade'
-
 " Tabular
 Bundle 'https://github.com/godlygeek/tabular'
 
@@ -124,6 +126,8 @@ Bundle "pyflakes"
 
 Bundle "json.vim"
 
+" Vitality restores the FocusLost and FocusGained autocommand functionality.
+" Now Vim can save when iTerm 2 loses focus, even if it's inside tmux!
 Bundle "sjl/vitality.vim"
 
 " toggle between ruby blocks <leader>b
@@ -132,6 +136,16 @@ Bundle "https://github.com/jgdavey/vim-blockle.git"
 " Add rename delete ...
 Bundle "https://github.com/tpope/vim-eunuch.git"
 
+" Indentation guides
+Bundle 'https://github.com/nathanaelkane/vim-indent-guides'
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
+
+" Syntax for handlebars
+"Bundle "nono/vim-handlebars"
+
+Bundle "bronson/vim-visual-star-search"
 "----------------------------------------------------------
 
 syntax enable                     " Turn on syntax highlighting.
@@ -441,6 +455,13 @@ au FocusLost * :silent! wall
 
 "quite safe pasting from clipboard
 map <C-p> <ESC>:set paste<CR>"*p:set nopaste<CR>
+vnoremap <C-y> "*y<Esc>
 
 " put in command line current file absolute path
 cmap %% <C-R>=expand("%:p:h")<CR>
+
+" Map :W, :Q to downcase in command line mode
+cmap W w
+cmap Q q
+
+vnoremap . :norm.<CR>
