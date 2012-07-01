@@ -5,6 +5,7 @@
 "==========================================================
 
 set nocompatible                  " Must come first because it changes other options.
+filetype off                   " required!
 
 " setup Vundle
 set rtp+=~/.vim/bundle/vundle/
@@ -15,8 +16,6 @@ call vundle#rc()
 "----------------------------------------------------------
 
 Bundle 'gmarik/vundle'
-
-Bundle 'pathogen.vim'
 
 Bundle 'L9'
 " FuzzyFinder - finally I can go to a class or method like in RubyMine
@@ -59,9 +58,6 @@ Bundle 'Syntastic'
 " vim-endwise - wisely add 'end' in ruby
 Bundle 'endwise.vim'
 
-" vim-fugitive - vim-git integration
-Bundle 'fugitive.vim'
-
 " vim-markdown - syntax highlighting for markdown
 Bundle 'Markdown'
 
@@ -77,7 +73,7 @@ Bundle 'tpope/vim-rake'
 Bundle 'tpope/vim-fugitive'
 
 " vim-rails - awesome vim-rails integration
-Bundle 'rails.vim'
+Bundle 'tpope/vim-rails.git'
 
 " vim-ruby - ruby integration
 Bundle 'ruby.vim'
@@ -123,8 +119,6 @@ Bundle 'https://github.com/godlygeek/tabular'
 Bundle "python.vim"
 
 Bundle "pyflakes"
-
-Bundle "json.vim"
 
 " Vitality restores the FocusLost and FocusGained autocommand functionality.
 " Now Vim can save when iTerm 2 loses focus, even if it's inside tmux!
