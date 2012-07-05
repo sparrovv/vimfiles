@@ -108,7 +108,7 @@ let g:substitute_NoPromptMap = "''"
 let g:substitute_PromptMap = "'l"
 
 " To be aware where gem ctags are, and some other goodies
-"Bundle 'https://github.com/tpope/vim-bundler.git'
+Bundle 'https://github.com/tpope/vim-bundler.git'
 
 " CoffeeScript syntax
 Bundle 'https://github.com/kchmck/vim-coffee-script'
@@ -455,7 +455,12 @@ vnoremap <C-y> "*y<Esc>
 cmap %% <C-R>=expand("%:p:h")<CR>
 
 " Map :W, :Q to downcase in command line mode
-cmap W w
 cmap Q q
 
 vnoremap . :norm.<CR>
+let $PATH=$PATH
+
+nmap <leader>tn :tnext<CR>
+nmap <leader>tp :tprev<CR>
+" Insert a hash rocket with <c-l>
+imap <c-l> <space>=><space>
