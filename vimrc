@@ -216,6 +216,8 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " semicolon instead of a colon for commands
 "nnoremap ; :
 
+let mapleader = ","
+
 " j and k will navigate correctly in the wrapped lines
 nnoremap j gj
 nnoremap k gk
