@@ -18,8 +18,8 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 Bundle 'L9'
-" FuzzyFinder - finally I can go to a class or method like in RubyMine
-Bundle 'FuzzyFinder'
+" succesor of Command-T pure fuzzy finding in vim-script
+Bundle 'vim-scripts/ctrlp.vim'
 
 " javascript indentation in vim sucks
 Bundle 'Better-Javascript-Indentation'
@@ -38,9 +38,6 @@ Bundle 'The-NERD-tree'
 
 " ack - use ack to search through files
 Bundle 'ack.vim'
-
-" command-T - file opener/finder
-Bundle 'Command-T'
 
 " delimitMate - autoclosing of (", etc. that does not clash with endwise
 Bundle 'delimitMate.vim'
@@ -61,7 +58,7 @@ Bundle 'endwise.vim'
 " vim-markdown - syntax highlighting for markdown
 Bundle 'Markdown'
 
-Bundle 'mkitt/markdown-preview.vim'
+Bundle 'swaroopch/vim-markdown-preview'
 
 " vim-matchit - better pair matching for the % command
 Bundle 'matchit.zip'
@@ -130,6 +127,9 @@ Bundle "https://github.com/jgdavey/vim-blockle.git"
 " Add rename delete ...
 Bundle "https://github.com/tpope/vim-eunuch.git"
 
+" Vim snippets
+"Bundle "msanders/snipmate.vim"
+
 " Indentation guides
 Bundle 'https://github.com/nathanaelkane/vim-indent-guides'
 let g:indent_guides_auto_colors = 0
@@ -142,6 +142,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
 Bundle "bronson/vim-visual-star-search"
 "----------------------------------------------------------
 
+Bundle "git://github.com/briancollins/vim-jst.git"
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
 
@@ -269,10 +270,6 @@ nmap <silent> <leader>r :Rake<cr>
 nmap <silent> <leader>rs :Rake spec<cr>
 
 " regenarate tags and reload the list of files used by Command-T plugin
-nmap <silent> <leader>gg :CommandT<cr>
-nmap <silent> <leader>gs :CommandT spec/<cr>
-
-nmap <silent> <leader>G :CommandTFlush<cr>:Rtags<cr>
 
 " unmap other ,g bindings
 "nunmap <leader>ge
@@ -295,7 +292,7 @@ nmap <C-s> :w<CR>
 imap <C-s> <ESC>:w<CR><ESC>
 
 "map leadder p to nerdtree
-silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
+nmap <silent> <Leader>p :NERDTreeToggle<CR>
 
 "Move line(s) of text down/up using Alt+j/k
 nnoremap <silent> <A-j> :m+<CR>==
@@ -349,14 +346,14 @@ command! RTfactories :RTedit spec/factories.rb
 " Execute current buffer as ruby
 map <S-r> :w !ruby<CR>
 
-map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-map <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
-map <leader>gf :CommandTFlush<cr>\|:CommandT ./<cr>
+nmap <leader>gs :CtrlP spec/<cr>
+nmap <leader>gv :CtrlP app/views<cr>
+nmap <leader>gc :CtrlP app/controllers<cr>
+nmap <leader>gm :CtrlP app/models<cr>
+nmap <leader>gh :CtrlP app/helpers<cr>
+nmap <leader>gl :CtrlP lib<cr>
+nmap <leader>ga :CtrlP app/assets<cr>
+nmap <leader>gf :CtrlP ./<cr>
 
 " View routes or Gemfile in large split
 map <leader>gr :topleft :split config/routes.rb<cr>
@@ -466,3 +463,50 @@ nmap <leader>tn :tnext<CR>
 nmap <leader>tp :tprev<CR>
 " Insert a hash rocket with <c-l>
 imap <c-l> <space>=><space>
+
+map <leader>e :w<CR>:!ruby %<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING TESTS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"function! RunTestFile(...)
+    "if a:0
+        "let command_suffix = a:1
+    "else
+        "let command_suffix = ""
+    "endif
+
+    "" Run the tests for the previously-marked file.
+    "let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+    "if in_test_file
+        "call SetTestFile()
+    "elseif !exists("t:grb_test_file")
+        "return
+    "end
+    "call RunTests(t:grb_test_file . command_suffix)
+"endfunction
+
+"function! RunTests(filename)
+    "" Write the file and run tests for the given filename
+    ":w
+    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    "if match(a:filename, '\.feature$') != -1
+        "exec ":!script/features " . a:filename
+    "else
+        "if filereadable("script/test")
+            "exec ":!script/test " . a:filename
+        "elseif filereadable("Gemfile")
+            "exec ":!bundle exec rspec --color " . a:filename
+        "else
+            "exec ":!rspec --color " . a:filename
+        "end
+    "end
+"endfunction
+
+"map <leader>a :call RunTests('')<cr>
+map <leader>s :!rspec --color %<cr>
