@@ -1,3 +1,7 @@
 # Vim Config mostly inspired by psyho config
 
-Start with git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+Clone and run install.sh
+
+Then open vim and run :BundleInstall
+
+Enjoy!
