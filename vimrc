@@ -66,7 +66,6 @@ Bundle 'matchit.zip'
 " vim-rake - :Rake, :A, :R like in rails.vim, but without rails
 Bundle 'tpope/vim-rake'
 
-" vim-rake - :Rake, :A, :R like in rails.vim, but without rails
 Bundle 'tpope/vim-fugitive'
 
 " vim-rails - awesome vim-rails integration
@@ -113,9 +112,10 @@ Bundle 'https://github.com/kchmck/vim-coffee-script'
 " Tabular
 Bundle 'https://github.com/godlygeek/tabular'
 
-Bundle "python.vim"
+" Python
+"Bundle "python.vim"
 
-Bundle "pyflakes"
+"Bundle "pyflakes"
 
 " Vitality restores the FocusLost and FocusGained autocommand functionality.
 " Now Vim can save when iTerm 2 loses focus, even if it's inside tmux!
@@ -125,10 +125,17 @@ Bundle "sjl/vitality.vim"
 Bundle "https://github.com/jgdavey/vim-blockle.git"
 
 " Add rename delete ...
-Bundle "https://github.com/tpope/vim-eunuch.git"
+"Bundle "https://github.com/tpope/vim-eunuch.git"
 
+Bundle 'jnwhiteh/vim-golang'
 " Vim snippets
 "Bundle "msanders/snipmate.vim"
+"
+" vim and gpg
+Bundle "jamessan/vim-gnupg"
+
+" shows git indicators in gutter - (nice, but slow)
+"Bundle 'airblade/vim-gitgutter'
 
 " Indentation guides
 Bundle 'https://github.com/nathanaelkane/vim-indent-guides'
@@ -140,9 +147,19 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
 "Bundle "nono/vim-handlebars"
 
 Bundle "bronson/vim-visual-star-search"
+
+Bundle "gregsexton/gitv"
 "----------------------------------------------------------
 
 Bundle "git://github.com/briancollins/vim-jst.git"
+Bundle "bling/vim-airline"
+
+Bundle "christoomey/vim-tmux-navigator"
+"Bundle "autoresize"
+
+" time tracking
+Bundle 'wakatime/vim-wakatime'
+
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
 
@@ -164,7 +181,8 @@ set wildmode=list:longest         " Complete files like a shell.
 set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
-set number                        " Show line numbers.
+"set number                        " Show line numbers.
+set relativenumber
 set ruler                         " Show cursor position.
 
 set history=1000                  " remember more commands and search history
@@ -222,9 +240,13 @@ let mapleader = ","
 " j and k will navigate correctly in the wrapped lines
 nnoremap j gj
 nnoremap k gk
+nnoremap <space> :
 
 " map .md files fo markdown
 au BufNewFile,BufRead *.md set filetype=markdown
+
+" map .prawn files fo ruby
+au BufNewFile,BufRead *.prawn set filetype=ruby
 
 " automatically strip trailing whitespace for some file types
 autocmd FileType c,cpp,java,php,javascript,html,ruby autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
@@ -245,6 +267,7 @@ if &diff
 endif
 
 " NERDTree
+"let NERDTreeShowHidden=1 
 let g:NERDChristmasTree = 1
 let g:NERDTreeMapOpenSplit = "s"
 let g:NERDTreeMapOpenVSplit = "v"
@@ -260,7 +283,7 @@ let g:syntastic_disabled_filetypes = ['eruby']
 let g:user_zen_expandabbr_key = '<c-e>'
 let g:use_zen_complete_tag = 1
 
-"map <silent> <F2> <ESC>:NERDTreeToggle<CR>
+map <silent> <F2> <ESC>:NERDTreeToggle<CR>
 
 nmap <silent> <leader>ft :FufTag<cr>
 nmap <silent> <leader>fb :FufBuffer<cr>
@@ -323,7 +346,7 @@ nmap <silent> <Leader>nsp :set nospell<CR>
 
 function! Wack(phrase)
   let p = a:phrase
-  call Ack(p . " ~/Dropbox/vimwiki/")
+  call Ack("--follow " . p .  " ~/vimwiki/*")
 endfunction
 
 command! -nargs=1 -complete=file Wack call Wack(<q-args>)
@@ -355,6 +378,8 @@ nmap <leader>gl :CtrlP lib<cr>
 nmap <leader>ga :CtrlP app/assets<cr>
 nmap <leader>gf :CtrlP ./<cr>
 
+let g:ctrlp_custom_ignore = 'vendor'
+
 " View routes or Gemfile in large split
 map <leader>gr :topleft :split config/routes.rb<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
@@ -373,7 +398,7 @@ map <leader>cp :CoffeeMake<CR>
 
 map <leader>a :Ack<space>
 
-set tags+=~/tags/gems.tags
+"~/tags/gems.tags
 map ]t :tnext <CR>
 map [t :tprev <CR>
 
@@ -447,14 +472,11 @@ au FocusLost * :silent! wall
 "let g:CommandTAcceptSelectionSplitMap=['<C-l>', '<C-k>']
 
 "quite safe pasting from clipboard
-map <C-p> <ESC>:set paste<CR>"*p:set nopaste<CR>
+map <C-b> <ESC>:set paste<CR>"*p:set nopaste<CR>
 vnoremap <C-y> "*y<Esc>
 
 " put in command line current file absolute path
 cmap %% <C-R>=expand("%:p:h")<CR>
-
-" Map :W, :Q to downcase in command line mode
-cmap Q q
 
 vnoremap . :norm.<CR>
 let $PATH=$PATH
@@ -465,48 +487,14 @@ nmap <leader>tp :tprev<CR>
 imap <c-l> <space>=><space>
 
 map <leader>e :w<CR>:!ruby %<CR>
+map <leader>cp "*y
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"function! RunTestFile(...)
-    "if a:0
-        "let command_suffix = a:1
-    "else
-        "let command_suffix = ""
-    "endif
+let &winwidth = &columns * 6 / 10
+set pastetoggle=<F3> "toggle between :set paste and :set nopaste
 
-    "" Run the tests for the previously-marked file.
-    "let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
-    "if in_test_file
-        "call SetTestFile()
-    "elseif !exists("t:grb_test_file")
-        "return
-    "end
-    "call RunTests(t:grb_test_file . command_suffix)
-"endfunction
+function! SetWinWidht()
+  let &winwidth = &columns * 6 / 10
+endfunction
 
-"function! RunTests(filename)
-    "" Write the file and run tests for the given filename
-    ":w
-    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    ":silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    "if match(a:filename, '\.feature$') != -1
-        "exec ":!script/features " . a:filename
-    "else
-        "if filereadable("script/test")
-            "exec ":!script/test " . a:filename
-        "elseif filereadable("Gemfile")
-            "exec ":!bundle exec rspec --color " . a:filename
-        "else
-            "exec ":!rspec --color " . a:filename
-        "end
-    "end
-"endfunction
+call SetWinWidht()
 
-"map <leader>a :call RunTests('')<cr>
-map <leader>s :!rspec --color %<cr>
