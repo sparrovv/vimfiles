@@ -22,7 +22,7 @@ Bundle 'L9'
 Bundle 'vim-scripts/ctrlp.vim'
 
 " javascript indentation in vim sucks
-Bundle 'Better-Javascript-Indentation'
+"Bundle 'Better-Javascript-Indentation'
 
 " JSON.vim - JSON syntax highlighting
 Bundle 'JSON.vim'
@@ -44,7 +44,7 @@ Bundle 'delimitMate.vim'
 
 " greplace.vim - plugin that allows search and replace across all of the project files
 " Gsearch Greplace
-Bundle 'greplace.vim'
+"Bundle 'greplace.vim'
 
 " jslint .js files automatically
 Bundle 'jslint.vim'
@@ -58,14 +58,10 @@ Bundle 'endwise.vim'
 " vim-markdown - syntax highlighting for markdown
 Bundle 'Markdown'
 
-Bundle 'swaroopch/vim-markdown-preview'
-
 " vim-matchit - better pair matching for the % command
 Bundle 'matchit.zip'
 
-" vim-rake - :Rake, :A, :R like in rails.vim, but without rails
-Bundle 'tpope/vim-rake'
-
+" git support
 Bundle 'tpope/vim-fugitive'
 
 " vim-rails - awesome vim-rails integration
@@ -96,7 +92,7 @@ Bundle 'ZenCoding.vim'
 Bundle 'vimwiki'
 
 " SuperTab for autcompletion in insert mode
-Bundle 'SuperTab'
+Bundle 'ervandew/supertab'
 
 " '' to substitue word, or selection
 Bundle 'https://github.com/aklt/vim-substitute.git'
@@ -115,17 +111,12 @@ Bundle 'https://github.com/godlygeek/tabular'
 " Python
 "Bundle "python.vim"
 
-"Bundle "pyflakes"
-
 " Vitality restores the FocusLost and FocusGained autocommand functionality.
 " Now Vim can save when iTerm 2 loses focus, even if it's inside tmux!
 Bundle "sjl/vitality.vim"
 
 " toggle between ruby blocks <leader>b
 Bundle "https://github.com/jgdavey/vim-blockle.git"
-
-" Add rename delete ...
-"Bundle "https://github.com/tpope/vim-eunuch.git"
 
 Bundle 'jnwhiteh/vim-golang'
 " Vim snippets
@@ -134,31 +125,23 @@ Bundle 'jnwhiteh/vim-golang'
 " vim and gpg
 Bundle "jamessan/vim-gnupg"
 
-" shows git indicators in gutter - (nice, but slow)
-"Bundle 'airblade/vim-gitgutter'
-
 " Indentation guides
 Bundle 'https://github.com/nathanaelkane/vim-indent-guides'
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
 
-" Syntax for handlebars
-"Bundle "nono/vim-handlebars"
-
 Bundle "bronson/vim-visual-star-search"
 
-Bundle "gregsexton/gitv"
-"----------------------------------------------------------
+"A vim plugin for highlighting and indenting JST/EJS syntax
+"Bundle "git://github.com/briancollins/vim-jst.git"
 
-Bundle "git://github.com/briancollins/vim-jst.git"
+"lean & mean status/tabline for vim that's light as air
 Bundle "bling/vim-airline"
 
 Bundle "christoomey/vim-tmux-navigator"
-"Bundle "autoresize"
 
-" time tracking
-Bundle 'wakatime/vim-wakatime'
+"Bundle "autoresize"
 
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
@@ -222,7 +205,13 @@ set autoread                      " automatically read changes from disk
 set diffopt+=iwhite               " ignore whitespace in vimdiff
 
 " Folding settings
-set foldmethod=indent             " indent based on syntax
+"zi switch folding on or off
+"za toggle current fold open/closed
+"zc close current fold
+"zR open all folds
+"zM close all folds
+"zv expand folds to reveal cursor
+set foldmethod=syntax             " indent based on syntax
 set foldnestmax=3                 " deepest fold is 3 levels
 set foldlevel=3
 set nofoldenable                  " dont fold by default
@@ -376,6 +365,7 @@ nmap <leader>gm :CtrlP app/models<cr>
 nmap <leader>gh :CtrlP app/helpers<cr>
 nmap <leader>gl :CtrlP lib<cr>
 nmap <leader>ga :CtrlP app/assets<cr>
+nmap <leader>ge :CtrlP engines/<cr>
 nmap <leader>gf :CtrlP ./<cr>
 
 let g:ctrlp_custom_ignore = 'vendor'
@@ -432,6 +422,7 @@ augroup abbrevs
   " Ruby
   au Filetype ruby ia log/ Rails.logger.debug
   au Filetype ruby ia pry/ require 'pry'; binding.pry;
+  au Filetype coffee ia log/ console.log 
   au Filetype ruby ia debug/ require 'ruby-debug'; debugger;
 
   au Filetype ruby ia desc/ describe "" do<CR><ESC>?""<ESC>a
@@ -479,7 +470,6 @@ vnoremap <C-y> "*y<Esc>
 cmap %% <C-R>=expand("%:p:h")<CR>
 
 vnoremap . :norm.<CR>
-let $PATH=$PATH
 
 nmap <leader>tn :tnext<CR>
 nmap <leader>tp :tprev<CR>
@@ -498,3 +488,4 @@ endfunction
 
 call SetWinWidht()
 
+nmap Q :echo "capital Q rescued, yay"<CR>
