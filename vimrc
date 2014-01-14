@@ -27,9 +27,6 @@ Bundle 'vim-scripts/ctrlp.vim'
 " JSON.vim - JSON syntax highlighting
 Bundle 'JSON.vim'
 
-" LustyJuggler - switch between buffers easier <Leader>lj
-Bundle 'LustyJuggler'
-
 " NerdCommenter - comment blocks of code
 Bundle 'The-NERD-Commenter'
 
@@ -79,9 +76,6 @@ Bundle 'textobj-user'
 " vim-textobj-rubyblock - allow selecting blocks in ruby as text objects
 Bundle 'textobj-rubyblock'
 
-" vim-unimpaired - some useful mappings, for example to swap code lines
-"Bundle 'unimpaired.vim'
-
 " vim-zoomwin - when maximizing the window it is possible to un-maximize it
 Bundle 'ZoomWin'
 
@@ -119,9 +113,7 @@ Bundle "sjl/vitality.vim"
 Bundle "https://github.com/jgdavey/vim-blockle.git"
 
 Bundle 'jnwhiteh/vim-golang'
-" Vim snippets
-"Bundle "msanders/snipmate.vim"
-"
+
 " vim and gpg
 Bundle "jamessan/vim-gnupg"
 
@@ -140,6 +132,11 @@ Bundle "bronson/vim-visual-star-search"
 Bundle "bling/vim-airline"
 
 Bundle "christoomey/vim-tmux-navigator"
+
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
+Bundle 'thoughtbot/vim-rspec'
+Bundle 'jgdavey/tslime.vim'
 
 "Bundle "autoresize"
 
@@ -236,9 +233,14 @@ au BufNewFile,BufRead *.md set filetype=markdown
 
 " map .prawn files fo ruby
 au BufNewFile,BufRead *.prawn set filetype=ruby
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
 
-" automatically strip trailing whitespace for some file types
-autocmd FileType c,cpp,java,php,javascript,html,ruby autocmd BufWritePre <buffer> :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+autocmd FileType c,cpp,java,php,ruby,python,coffee autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 au! BufRead,BufNewFile *.json setfiletype json
 autocmd FileType json set equalprg=json_reformat
@@ -278,8 +280,8 @@ nmap <silent> <leader>ft :FufTag<cr>
 nmap <silent> <leader>fb :FufBuffer<cr>
 
 " a key mapping for running tests
-nmap <silent> <leader>r :Rake<cr>
-nmap <silent> <leader>rs :Rake spec<cr>
+"nmap <silent> <leader>r :Rake<cr>
+"nmap <silent> <leader>rs :Rake spec<cr>
 
 " regenarate tags and reload the list of files used by Command-T plugin
 
@@ -384,8 +386,6 @@ nmap <C-b> :vs<bar>:b#<CR>
 " Use Node.js for JavaScript interpretation
 let $JS_CMD='node'
 
-map <leader>cp :CoffeeMake<CR>
-
 map <leader>a :Ack<space>
 
 "~/tags/gems.tags
@@ -422,6 +422,7 @@ augroup abbrevs
   " Ruby
   au Filetype ruby ia log/ Rails.logger.debug
   au Filetype ruby ia pry/ require 'pry'; binding.pry;
+  au Filetype ruby ia pryd/ require 'pry-debugger'; binding.pry;
   au Filetype coffee ia log/ console.log 
   au Filetype ruby ia debug/ require 'ruby-debug'; debugger;
 
@@ -477,7 +478,9 @@ nmap <leader>tp :tprev<CR>
 imap <c-l> <space>=><space>
 
 map <leader>e :w<CR>:!ruby %<CR>
-map <leader>cp "*y
+
+vmap <leader>cp "*y
+nmap <leader>cp :let @*=expand("%:p")<CR>
 
 let &winwidth = &columns * 6 / 10
 set pastetoggle=<F3> "toggle between :set paste and :set nopaste
@@ -487,5 +490,13 @@ function! SetWinWidht()
 endfunction
 
 call SetWinWidht()
+nmap <leader>r :call SetWinWidht()<CR>
 
 nmap Q :echo "capital Q rescued, yay"<CR>
+
+let g:rspec_command = 'call Send_to_Tmux("be rspec {spec}\n")'
+
+" vim-rspec mappings
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
