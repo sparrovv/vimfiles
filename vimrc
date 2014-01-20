@@ -201,18 +201,6 @@ set autoread                      " automatically read changes from disk
 
 set diffopt+=iwhite               " ignore whitespace in vimdiff
 
-" Folding settings
-"zi switch folding on or off
-"za toggle current fold open/closed
-"zc close current fold
-"zR open all folds
-"zM close all folds
-"zv expand folds to reveal cursor
-set foldmethod=syntax             " indent based on syntax
-set foldnestmax=3                 " deepest fold is 3 levels
-set foldlevel=3
-set nofoldenable                  " dont fold by default
-
 "set matchpairs+=<:>               " add < and > to the chars thac can be navigated with %
 
 " Useful status information at bottom of screen
