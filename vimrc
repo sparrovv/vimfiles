@@ -53,7 +53,7 @@ Bundle 'Syntastic'
 Bundle 'endwise.vim'
 
 " vim-markdown - syntax highlighting for markdown
-Bundle 'Markdown'
+Bundle 'plasticboy/vim-markdown'
 
 " vim-matchit - better pair matching for the % command
 Bundle 'matchit.zip'
