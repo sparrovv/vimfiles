@@ -139,6 +139,8 @@ Bundle 'thoughtbot/vim-rspec'
 Bundle 'jgdavey/tslime.vim'
 
 "Bundle "autoresize"
+" syntax highlighting for puppet
+Bundle 'rodjek/vim-puppet'
 
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
