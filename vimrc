@@ -21,9 +21,6 @@ Bundle 'L9'
 " succesor of Command-T pure fuzzy finding in vim-script
 Bundle 'vim-scripts/ctrlp.vim'
 
-" javascript indentation in vim sucks
-"Bundle 'Better-Javascript-Indentation'
-
 " JSON.vim - JSON syntax highlighting
 Bundle 'JSON.vim'
 
@@ -54,6 +51,8 @@ Bundle 'endwise.vim'
 
 " vim-markdown - syntax highlighting for markdown
 Bundle 'plasticboy/vim-markdown'
+" disable automate folding for markdown
+let g:vim_markdown_folding_disabled=1
 
 " vim-matchit - better pair matching for the % command
 Bundle 'matchit.zip'
@@ -77,7 +76,7 @@ Bundle 'textobj-user'
 Bundle 'textobj-rubyblock'
 
 " vim-zoomwin - when maximizing the window it is possible to un-maximize it
-Bundle 'ZoomWin'
+Bundle 'regedarek/ZoomWin'
 
 " zencoding-vim - plugin for expanding css-like syntax to html
 Bundle 'ZenCoding.vim'
@@ -138,10 +137,12 @@ Bundle 'mattn/gist-vim'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'jgdavey/tslime.vim'
 
-"Bundle "autoresize"
+Bundle 'maxbrunsfeld/vim-yankstack'
+
 " syntax highlighting for puppet
 Bundle 'rodjek/vim-puppet'
 
+Bundle 'majutsushi/tagbar'
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
 
@@ -269,15 +270,6 @@ map <silent> <F2> <ESC>:NERDTreeToggle<CR>
 nmap <silent> <leader>ft :FufTag<cr>
 nmap <silent> <leader>fb :FufBuffer<cr>
 
-" a key mapping for running tests
-"nmap <silent> <leader>r :Rake<cr>
-"nmap <silent> <leader>rs :Rake spec<cr>
-
-" regenarate tags and reload the list of files used by Command-T plugin
-
-" unmap other ,g bindings
-"nunmap <leader>ge
-"nunmap <leader>gE
 
 " ignore gems bundled in the project directory
 set wildignore+=vendor/gems,vendor/bundle
@@ -312,7 +304,7 @@ nmap <C-f> gg=<S-G>
 " Make vimwiki have syntax highlither
 let g:vimwiki_list = [{'html_header': '~/vimwiki_html/header.tpl'}]
 
-" Open vimrc in a split
+" Open vimrc
 nmap <silent> <Leader>vim :e! ~/.vim/vimrc<CR>
 
 " When vimrc is edited, reload it
@@ -335,6 +327,21 @@ command! -nargs=1 -complete=file Wack call Wack(<q-args>)
 nmap <leader>wak :Wack<space>
 " Open todos
 nmap <Leader>td :e ~/Dropbox/vimwiki/ToDos.wiki <CR>
+
+" CtrlP mappings
+nmap <leader>gs :CtrlP spec/<cr>
+nmap <leader>gv :CtrlP app/views<cr>
+nmap <leader>gc :CtrlP app/controllers<cr>
+nmap <leader>gm :CtrlP app/models<cr>
+nmap <leader>gh :CtrlP app/helpers<cr>
+nmap <leader>gl :CtrlP lib<cr>
+nmap <leader>ga :CtrlP app/assets<cr>
+nmap <leader>ge :CtrlP engines/<cr>
+nmap <leader>gf :CtrlP ./<cr>
+
+" ignore searching in vendor
+let g:ctrlp_custom_ignore = 'vendor'
+
 "  ---------------------------------------------------------------------------
 "  Ruby/Rails
 "  ---------------------------------------------------------------------------
@@ -349,18 +356,6 @@ command! RTfactories :RTedit spec/factories.rb
 
 " Execute current buffer as ruby
 map <S-r> :w !ruby<CR>
-
-nmap <leader>gs :CtrlP spec/<cr>
-nmap <leader>gv :CtrlP app/views<cr>
-nmap <leader>gc :CtrlP app/controllers<cr>
-nmap <leader>gm :CtrlP app/models<cr>
-nmap <leader>gh :CtrlP app/helpers<cr>
-nmap <leader>gl :CtrlP lib<cr>
-nmap <leader>ga :CtrlP app/assets<cr>
-nmap <leader>ge :CtrlP engines/<cr>
-nmap <leader>gf :CtrlP ./<cr>
-
-let g:ctrlp_custom_ignore = 'vendor'
 
 " View routes or Gemfile in large split
 map <leader>gr :topleft :split config/routes.rb<cr>
@@ -382,9 +377,7 @@ map <leader>a :Ack<space>
 map ]t :tnext <CR>
 map [t :tprev <CR>
 
-" Command-t max height
-let g:CommandTMaxHeight = 15
-
+" set a column separator so it indicates too long lines.
 if exists('+colorcolumn')
   set colorcolumn=80
   hi ColorColumn guibg=#2d2d2d
@@ -454,8 +447,9 @@ au FocusLost * :silent! wall
 "let g:CommandTAcceptSelectionSplitMap=['<C-l>', '<C-k>']
 
 "quite safe pasting from clipboard
-map <C-b> <ESC>:set paste<CR>"*p:set nopaste<CR>
+"map <C-b> <ESC>:set paste<CR>"*p:set nopaste<CR>
 vnoremap <C-y> "*y<Esc>
+set pastetoggle=<F3> "toggle between :set paste and :set nopaste
 
 " put in command line current file absolute path
 cmap %% <C-R>=expand("%:p:h")<CR>
@@ -469,11 +463,11 @@ imap <c-l> <space>=><space>
 
 map <leader>e :w<CR>:!ruby %<CR>
 
+" copy to the system clipboard
 vmap <leader>cp "*y
 nmap <leader>cp :let @*=expand("%:p")<CR>
 
 let &winwidth = &columns * 6 / 10
-set pastetoggle=<F3> "toggle between :set paste and :set nopaste
 
 function! SetWinWidht()
   let &winwidth = &columns * 6 / 10
@@ -490,3 +484,6 @@ let g:rspec_command = 'call Send_to_Tmux("be rspec {spec}\n")'
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
+
+" spell checking in git commits.
+autocmd Filetype gitcommit setlocal spell textwidth=72
