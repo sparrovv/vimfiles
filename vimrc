@@ -31,7 +31,7 @@ Bundle 'The-NERD-Commenter'
 Bundle 'The-NERD-tree'
 
 " ack - use ack to search through files
-Bundle 'ack.vim'
+Bundle 'mileszs/ack.vim'
 
 " delimitMate - autoclosing of (", etc. that does not clash with endwise
 Bundle 'delimitMate.vim'
@@ -63,6 +63,11 @@ Bundle 'tpope/vim-fugitive'
 " vim-rails - awesome vim-rails integration
 Bundle 'tpope/vim-rails.git'
 
+" vim-cucumber - jumping to steps
+Bundle 'tpope/vim-cucumber'
+"[<C-d> - jump to the definition
+"<C-W>d or <C-w><C-d> on a step jumps to its definition in a new split 
+
 " vim-ruby - ruby integration
 Bundle 'ruby.vim'
 
@@ -74,9 +79,6 @@ Bundle 'textobj-user'
 
 " vim-textobj-rubyblock - allow selecting blocks in ruby as text objects
 Bundle 'textobj-rubyblock'
-
-" vim-zoomwin - when maximizing the window it is possible to un-maximize it
-Bundle 'regedarek/ZoomWin'
 
 " zencoding-vim - plugin for expanding css-like syntax to html
 Bundle 'ZenCoding.vim'
@@ -111,7 +113,8 @@ Bundle "sjl/vitality.vim"
 " toggle between ruby blocks <leader>b
 Bundle "https://github.com/jgdavey/vim-blockle.git"
 
-Bundle 'jnwhiteh/vim-golang'
+"Bundle 'jnwhiteh/vim-golang'
+Bundle 'fatih/vim-go'
 
 " vim and gpg
 Bundle "jamessan/vim-gnupg"
@@ -124,9 +127,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
 
 Bundle "bronson/vim-visual-star-search"
 
-"A vim plugin for highlighting and indenting JST/EJS syntax
-"Bundle "git://github.com/briancollins/vim-jst.git"
-
 "lean & mean status/tabline for vim that's light as air
 Bundle "bling/vim-airline"
 
@@ -137,12 +137,16 @@ Bundle 'mattn/gist-vim'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'jgdavey/tslime.vim'
 
-Bundle 'maxbrunsfeld/vim-yankstack'
+"Bundle 'maxbrunsfeld/vim-yankstack'
 
 " syntax highlighting for puppet
 Bundle 'rodjek/vim-puppet'
 
 Bundle 'majutsushi/tagbar'
+
+" Docker syntax
+Bundle 'ekalinin/Dockerfile.vim'
+
 syntax enable                     " Turn on syntax highlighting.
 filetype plugin indent on         " Turn on file type detection.
 
@@ -371,7 +375,12 @@ nmap <C-b> :vs<bar>:b#<CR>
 " Use Node.js for JavaScript interpretation
 let $JS_CMD='node'
 
-map <leader>a :Ack<space>
+map <leader>a :Ack --ignore-dir={log,vendor,tmp}<space>
+vnoremap <leader>a y<ESC>:Ack<space>--ignore-dir={log,vendor,tmp}<space>"<C-r>""
+map <leader>f :Ack --ignore-dir={log,vendor,tmp}<space><cword><cr>
+
+vnoremap <c-f> y<ESC>/<c-r>"
+vnoremap <leader>m y<ESC>:Ack<space><c-r>"
 
 "~/tags/gems.tags
 map ]t :tnext <CR>
@@ -464,6 +473,7 @@ imap <c-l> <space>=><space>
 map <leader>e :w<CR>:!ruby %<CR>
 
 " copy to the system clipboard
+set clipboard^=unnamed
 vmap <leader>cp "*y
 nmap <leader>cp :let @*=expand("%:p")<CR>
 
@@ -487,3 +497,41 @@ map <Leader>l :call RunLastSpec()<CR>
 
 " spell checking in git commits.
 autocmd Filetype gitcommit setlocal spell textwidth=72
+
+" tabs - docs
+" tabedit % - opens split in new tab
+" tabclose - close edit
+" tabp, tabn - previous, next tabs
+"
+" :tabedit % will open the current buffer in a new tab
+" :tabclose when finished and return to your finely tuned set of splits.
+nmap t% :tabedit %<CR>
+nmap tc :tabclose<CR>
+
+"autocmd BufWritePre *.go Fmt
+
+"folding settings
+"Some common key bindings:
+"`za` - toggles
+"`zc` - closes
+"`zo` - opens
+"`zR` - open all
+"`zM` - close all
+"http://smartic.us/2009/04/06/code-folding-in-vim/
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set nofoldenable        "dont fold by default
+set foldlevel=1         "this is just what i use"
+
+inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+function! s:align()
+  let p = '^\s*|\s.*\s|\s*$'
+  if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+    let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+    let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+    Tabularize/|/l1
+    normal! 0
+    call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+  endif
+endfunction

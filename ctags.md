@@ -1,16 +1,11 @@
 ## CTAGS in VIM
 
-Rationale: 
-
-It happens every so often that I forget how to use ctags in vim (mostly because I haven't used it for a while).
-
-This write-up is supposed to help me out to remember it.
-
 ### CTAGS generation
 
-To make ctags useful you need to generate them quite often.  It can be a mundane task, so it should be automated.
+To make ctags useful you need to generate them quite often.  It can be a mundane task, so you better automate it.
 
-I came across this article by Tim Pope: http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html, that I enjoyed so my setup is more or less a copy of the one that is described in the article.
+I came across this article by Tim Pope: http://tbaggery.com/2011/08/08/effortless-ctags-with-git.html,
+that I enjoyed a lot, so my setup is more or less a copy of the one that is described in the article.
 
 ```sh
   git config --global init.templatedir '~/.git_template'
