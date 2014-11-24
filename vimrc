@@ -115,6 +115,7 @@ Bundle "https://github.com/jgdavey/vim-blockle.git"
 
 "Bundle 'jnwhiteh/vim-golang'
 Bundle 'fatih/vim-go'
+let g:go_fmt_command = "goimports"
 
 " vim and gpg
 Bundle "jamessan/vim-gnupg"
@@ -142,7 +143,9 @@ Bundle 'jgdavey/tslime.vim'
 " syntax highlighting for puppet
 Bundle 'rodjek/vim-puppet'
 
+"Vim plugin that displays tags in a window, ordered by scope
 Bundle 'majutsushi/tagbar'
+nmap <F8> :TagbarToggle<CR>
 
 " Docker syntax
 Bundle 'ekalinin/Dockerfile.vim'
@@ -535,3 +538,8 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
+
+" buffers
+:nmap <C-e> :e#<CR>
+:nmap <C-n> :bnext<CR>
+:nmap <C-p> :bprev<CR>
