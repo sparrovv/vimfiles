@@ -172,7 +172,7 @@ set ignorecase                    " Case-insensitive searching.
 set smartcase                     " But case-sensitive if expression contains a capital letter.
 
 "set number                        " Show line numbers.
-set relativenumber
+set number
 set ruler                         " Show cursor position.
 
 set history=1000                  " remember more commands and search history
@@ -191,6 +191,8 @@ set wrap                          " Turn on line wrapping.
 set scrolloff=3                   " Show 3 lines of context around the cursor.
 
 set title                         " Set the terminal's title
+
+" set termguicolors
 
 set visualbell                    " No beeping.
 
@@ -216,6 +218,8 @@ set diffopt+=iwhite               " ignore whitespace in vimdiff
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
+
+set lazyredraw
 " semicolon instead of a colon for commands
 "nnoremap ; :
 
@@ -238,10 +242,14 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd FileType c,cpp,java,php,ruby,python,coffee autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType c,cpp,java,php,ruby,python,coffee,md,markdown,pp autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
-au! BufRead,BufNewFile *.json setfiletype json
-autocmd FileType json set equalprg=json_reformat
+fun! JsonReformat()
+  :%!python -m json.tool
+endfunction
+
+"au! BufRead,BufNewFile *.json setfiletype json
+"autocmd FileType json set equalprg=jq\ .
 
 " Easy window navigation
 map <C-h> <C-w>h
@@ -435,8 +443,8 @@ augroup abbrevs
 
   " Javascript
   au Filetype javascript ia log/ console.log()<left>
-  au Filetype javascript ia f/ function() {<CR><BS><SPACE><CR>}<ESC>?{<CR>j$a
-  au Filetype javascript ia f- function() { }<ESC>?{<ESC>a
+  "au Filetype javascript ia f/ function() {<CR><BS><SPACE><CR>}<ESC>?{<CR>j$a
+  "au Filetype javascript ia f- function() { }<ESC>?{<ESC>a
 augroup END
 
 " Resizing vertical splits
@@ -449,7 +457,6 @@ map <leader>jf  <Esc>:%!python -m json.tool<CR>
 
 colorscheme jellybeans
 
-"map Esc to jj
 imap jj <Esc>
 imap jk <Esc>
 
@@ -478,6 +485,9 @@ map <leader>e :w<CR>:!ruby %<CR>
 " copy to the system clipboard
 set clipboard^=unnamed
 vmap <leader>cp "*y
+vnoremap <C-c> "*y
+" vmap <leader>cp :w !pbcopy
+" nmap <leader>cp :let @*=expand("%:p")<CR>
 nmap <leader>cp :let @*=expand("%:p")<CR>
 
 let &winwidth = &columns * 6 / 10
@@ -543,3 +553,4 @@ endfunction
 :nmap <C-e> :e#<CR>
 :nmap <C-n> :bnext<CR>
 :nmap <C-p> :bprev<CR>
+
